@@ -1,0 +1,81 @@
+<html>
+	<head>	
+		<title>icantbelieveitsnottracert</title>
+		{% include 'header_scripts.html' %}
+		<link rel="stylesheet" href="/static/rainbow_font.css"></link>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+		<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+		<style>
+			#mapid { height: 500px; }
+			.info.legend {
+			  background-color: white;
+			}
+		</style>
+	</head>
+	<body>	
+		{% if cached %}
+			<div class="container text-center">
+				<h1>Tracing {{ ip }}</h1>
+				<img src="/static/logo.png"></img><br>
+			</div>
+			<div id="mapid"></div>
+			<script>
+				
+
+				let mymap = L.map('mapid').setView([51.505, -0.09], 1);
+				
+				L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+				    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+				}).addTo(mymap);
+				
+				let pathCoords = [];
+				
+				let idx = 0;
+				
+				let legend_info = [];
+
+				function drawMarks(coords) {
+					Object.entries(coords).map((e) => {
+						let k,v;
+						
+						[k,v] = e;
+						
+						let arr = k.split(',');
+						let float_arr = arr.map(parseFloat);
+						pathCoords.push(float_arr);
+						let marker = L.marker(float_arr)
+						let t_text = `[${idx}] ${k} ${v}`;
+						marker.bindTooltip(t_text, {permanent: true, className: "cl-nm", offset: [0, 0] });
+						legend_info.push(t_text);
+						++idx;
+						
+						marker.addTo(mymap);
+					});
+				}
+				
+				let legend = L.control({position: 'bottomleft'});
+
+				legend.onAdd = function(map) {
+				  var div = L.DomUtil.create('div', 'info legend');
+
+				  div.innerHTML = legend_info.join('<br>');
+				  return div;
+				};
+
+				drawMarks( {{ coords | safe }} );
+				L.polyline(pathCoords).addTo(mymap);
+
+				legend.addTo(mymap);
+			</script>
+		{% else %}
+			<div class="container text-center">
+				<h1>{{ ip }} is now cached.</h1>
+				<img src="/static/logo.png"></img><br>
+			</div>
+		{% endif %}
+	</body>
+</html>

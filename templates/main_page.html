@@ -1,0 +1,20 @@
+<html lang="ru">
+	<head>	
+		<title>icantbelieveitsnottracert</title>
+		{% include 'header_scripts.html' %}
+		<link rel="stylesheet" href="/static/rainbow_font.css"></link>
+	</head>
+	<body>
+		<div class="container text-center">
+			<h1>Wow, they have it!</h1>
+			<img src="/static/logo.png"></img><br>	
+			{% if files|length > 0 %}
+				{% for f in files %}
+				<a href="/trace/{{ f }}">Let's trace {{ f }}!</a><br>
+				{% endfor %}
+			{% else %}
+				<a href="/trace/8.8.8.8">Let's trace something!</a>
+			{% endif %}
+		</div>
+	</body>
+</html>

@@ -1,0 +1,1 @@
+{"59.9386,30.3141": ["Saint Petersburg", "St.-Petersburg"], "18.3419,-64.9307": ["Charlotte Amalie", "Saint Thomas Island"], "55.7522,37.6156": ["Moscow", "Moscow"], "59.3326,18.0649": ["Stockholm", "Stockholm"], "47.6740,-122.1215": ["Redmond", "Washington"], "41.6005,-93.6091": ["Des Moines", "Iowa"]}

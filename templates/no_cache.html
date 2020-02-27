@@ -1,0 +1,18 @@
+<html lang="ru">
+	<head>
+		{% include 'header_scripts.html' %}
+	</head>
+	<body>
+		
+		<div class="container text-center">
+			{% if message %}
+				<h1>{{ message }}</h1>
+			{% else %}
+				<h1>Can't make cache in production.</h1>
+			{% endif %}
+			<img src="/static/tux.png"></img>
+			<br>
+			<a href='/'>Go back</a>
+		</div>
+	</body>
+</html>

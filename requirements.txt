@@ -1,3 +1,2 @@
-django
+Flask
 gunicorn
-django-heroku
