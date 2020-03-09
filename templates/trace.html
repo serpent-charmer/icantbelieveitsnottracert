@@ -9,6 +9,7 @@
 		<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
    crossorigin=""></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 		<style>
 			#mapid { height: 500px; }
 			.info.legend {
@@ -21,15 +22,24 @@
 			<div class="container text-center">
 				<h1>Tracing {{ ip }}</h1>
 				<img src="/static/logo.png"></img><br>
+				<button type="button" class="btn btn-light" onclick="showTrace()">Trace more</button>
+			
 			</div>
 			<div id="mapid"></div>
+			
 			<script>
-				
+				function showTrace() {
+					let endTrace = new Audio('/static/close.wav');
+					endTrace.onended = () => {
+						window.location.href = `/`; 
+					};
+					endTrace.play();
+				}
 
-				let mymap = L.map('mapid').setView([51.505, -0.09], 1);
+				let mymap = L.map('mapid').setView([51.505, -0.09], 3);
 				
-				L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-				    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+				L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				    'attribution': 'Map data &copy; OpenStreetMap contributors'
 				}).addTo(mymap);
 				
 				let pathCoords = [];
@@ -70,12 +80,25 @@
 				L.polyline(pathCoords).addTo(mymap);
 
 				legend.addTo(mymap);
+				
+				
 			</script>
 		{% else %}
 			<div class="container text-center">
 				<h1>{{ ip }} is now cached.</h1>
 				<img src="/static/logo.png"></img><br>
+				<button type="button" class="btn btn-light" onclick="showTrace()">See trace!</button>
+			
 			</div>
+			<script>
+				function showTrace() {
+					let endTrace = new Audio('/static/phonepickup.wav');
+					endTrace.onended = () => {
+						window.location.href = `/trace/{{ ip }}`; 
+					};
+					endTrace.play();
+				}
+			</script>
 		{% endif %}
 	</body>
 </html>

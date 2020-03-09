@@ -17,15 +17,12 @@ except:
     pass
     
 def filter_func_tuple(x):
-
     for _x in x.keys():
         if not _x: return
     return x
     
 def get_json(data):
-
     data_dict = json.loads(data.decode())
-
     return data_dict
 
 def get_traceroute(ip):
@@ -44,12 +41,10 @@ def page_not_found(e):
 
 @app.route('/', methods=['GET', 'POST'])
 def get_main_page():
-    
     return render_template('main_page.html', files=os.listdir(CACHE_DIR))   
    
 @app.route('/trace/<string:ip>', methods=['GET'])
 def trace_route(ip):
-
     cached_ip = CACHE_DIR + '/' + ip
     
     if not os.path.isfile(cached_ip):
@@ -86,7 +81,6 @@ def trace_route(ip):
         
         try:
             json_r = json.loads(text_r)
-            print(json_r)
         except:
             f.close()
             os.remove(cached_ip)

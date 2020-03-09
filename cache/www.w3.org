@@ -1,0 +1,1 @@
+{"59.9386,30.3141": ["Saint Petersburg", "St.-Petersburg"], "55.7522,37.6156": ["Moscow", "Moscow"], "51.5085,-0.1257": ["London", "England"], "42.3620,-71.0830": ["Cambridge", "Massachusetts"], "42.3647,-71.1042": ["Cambridge", "Massachusetts"]}

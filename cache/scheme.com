@@ -1,0 +1,1 @@
+{"54.7431,55.9678": ["Ufa", "Bashkortostan Republic"], "51.5406,46.0086": ["Saratov", "Saratovskaya Oblast"], "59.9386,30.3141": ["Saint Petersburg", "St.-Petersburg"], "50.0483,8.6941": ["Neu Isenburg", "Hesse"], "30.2672,-97.7431": ["Austin", "Texas"], "40.4254,-79.9799": ["Pittsburgh", "Pennsylvania"]}

@@ -1,0 +1,1 @@
+{"59.9386,30.3141": ["Saint Petersburg", "St.-Petersburg"], "55.7522,37.6156": ["Moscow", "Moscow"], "49.1166,10.7597": ["Gunzenhausen", "Bavaria"]}

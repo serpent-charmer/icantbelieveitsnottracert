@@ -7,14 +7,50 @@
 	<body>
 		<div class="container text-center">
 			<h1>Wow, they have it!</h1>
-			<img src="/static/logo.png"></img><br>	
+			<img src="/static/logo.png"></img><br>
+			
+		</div>
+		<div class="container text-right">
+			<div class="input-group mb-3">
+			<input id="ip_field" class="form-control" type="text">
+			<div class="input-group-append">
+			    <button type="button" class="btn btn-light" onclick="Trace()">Trace!</button>
+			  </div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card card-body bg-light">
 			{% if files|length > 0 %}
-				{% for f in files %}
-				<a href="/trace/{{ f }}">Let's trace {{ f }}!</a><br>
-				{% endfor %}
+				
+					{% for f in files %}
+					<a href="#" onclick="showTrace('{{ f }}')">Show trace for {{ f }}</a><br>
+					{% endfor %}
+				
 			{% else %}
 				<a href="/trace/8.8.8.8">Let's trace something!</a>
 			{% endif %}
+			</div>
 		</div>
 	</body>
+	<script>
+		let startTrace = new Audio('/static/ringout.wav');
+		
+		
+		
+		function Trace() {
+			startTrace.onended = () => {
+				let ip = document.getElementById("ip_field").value;
+				window.location.href = `/trace/${ip}`; 
+			};
+			startTrace.play();
+		}
+		function showTrace(ip) {
+			console.log(ip);
+			let endTrace = new Audio('/static/phonepickup.wav');
+			endTrace.onended = () => {
+				window.location.href = `/trace/${ip}`; 
+			};
+			endTrace.play();
+		}
+	</script>
 </html>
