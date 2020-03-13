@@ -10,8 +10,9 @@
    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
    crossorigin=""></script>
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<script src="/static/wegl.js"></script>
 		<style>
-			#mapid { height: 500px; }
+			#earth_div { height: 70%; }
 			.info.legend {
 			  background-color: white;
 			}
@@ -21,12 +22,11 @@
 		{% if cached %}
 			<div class="container text-center">
 				<h1>Tracing {{ ip }}</h1>
-				<img src="/static/logo.png"></img><br>
 				<button type="button" class="btn btn-light" onclick="showTrace()">Trace more</button>
 			
 			</div>
-			<div id="mapid"></div>
-			
+			<!--<div id="mapid"></div>-->
+			<div id="earth_div"></div>
 			<script>
 				function showTrace() {
 					let endTrace = new Audio('/static/close.wav');
@@ -36,11 +36,65 @@
 					endTrace.play();
 				}
 
+				var earth = new WE.map('earth_div');
+				WE.tileLayer('http://tileserver.maptiler.com/nasa/{z}/{x}/{y}.jpg', {
+				  minZoom: 0,
+				  maxZoom: 1,
+				  attribution: 'NASA'
+				}).addTo(earth);
+				earth.setView([51.505, 0], 2);
+				
+				let idx = 0;
+				
+				var polygon_path = [];
+				
+				function drawMarks(coords) {
+					console.log(coords);
+					Object.entries(coords).map((e) => {
+						let k,v;
+						
+						[k,v] = e;
+						
+						let arr = k.split(',');
+						let float_arr = arr.map(parseFloat);
+						
+						polygon_path.push(float_arr);
+						polygon_path.push(float_arr);
+						
+						let marker = WE.marker(float_arr).addTo(earth);
+						let t_text = `[${idx}] ${k} ${v}`;
+						marker.bindPopup(t_text, {maxWidth: 120, closeButton: false}).openPopup();
+						
+						++idx;
+						
+						
+						if(polygon_path.length > 2) {
+							console.log('Full' + polygon_path);
+							WE.polygon(polygon_path, 
+									{color: '#002487',
+									  opacity: 1,
+									  fillColor: '#fff',
+									  fillOpacity: 0.1}).addTo(earth);
+							
+							polygon_path = polygon_path.reverse();
+							
+							while(polygon_path.length > 1)
+								polygon_path.pop();
+							console.log('Clear' + polygon_path);
+						}
+					});
+				}
+				
+				drawMarks( {{ coords | safe }} );
+				
+				
+				/*
 				let mymap = L.map('mapid').setView([51.505, -0.09], 3);
 				
 				L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				    'attribution': 'Map data &copy; OpenStreetMap contributors'
 				}).addTo(mymap);
+				
 				
 				let pathCoords = [];
 				
@@ -78,9 +132,10 @@
 
 				drawMarks( {{ coords | safe }} );
 				L.polyline(pathCoords).addTo(mymap);
+				
 
 				legend.addTo(mymap);
-				
+				*/
 				
 			</script>
 		{% else %}
