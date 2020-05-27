@@ -3,6 +3,7 @@
 
 <head>
 	<title>I woke up one day</title>
+	<link rel="icon" href="{{ url_for('static', filename='black_heart.ico') }}">
 	<meta charset='utf-8'>
 	<style>
 		body {
@@ -67,6 +68,11 @@
 
 	<script>
 
+
+		Array.prototype.sample = function(){
+			  return this[Math.floor(Math.random()*this.length)];
+			}
+
 		var camera, scene, renderer;
 		var video, videoTexture, videoMaterial;
 		var composer;
@@ -88,9 +94,9 @@
 			//Load Video
 			video = document.createElement('video');
 			video.crossOrigin ="anonymous";
-			video.loop = true;
+			video.loop = false;
 			video.muted = false;
-			video.src = '/static/res/summer.mp4';
+			video.src = '/static/res/' + ['LornVisualised.webm', 'roygbiv.webm', 'WormsAccordionWebm.webm'].sample();
 			
 			video.play();
 			
@@ -143,22 +149,22 @@
 			badTVParams = {
 				mute: false,
 				show: true,
-				distortion: 3.0,
-				distortion2: 1.0,
+				distortion: 0.005,
+				distortion2: 0.005,
 				speed: 0.3,
-				rollSpeed: 0.1
+				rollSpeed: 0.01
 			};
 
 			staticParams = {
 				show: true,
-				amount: 0.5,
-				size: 4.0
+				amount: 0.1,
+				size: 1.0
 			};
 
 			rgbParams = {
 				show: true,
-				amount: 0.005,
-				angle: 0.0,
+				amount: 0.0,
+				angle: 0.3,
 			};
 
 			filmParams = {
@@ -209,7 +215,7 @@
 			window.addEventListener('resize', onResize, false);
 			renderer.domElement.addEventListener('click', randomizeParams, false);
 			onResize();
-			randomizeParams();
+			//randomizeParams();
 			
 			animate();
 		}
@@ -245,6 +251,8 @@
 			staticParams.amount = Math.random() * 0.2;
 
 			onParamsChange();
+			
+			video.play();
 		}
 
 		function onToggleMute() {

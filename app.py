@@ -50,7 +50,7 @@ def trace_route(ip):
     
     if not os.path.isfile(cached_ip):
     
-        if os.name == 'posix':
+        if os.name != 'posix':
         
             return render_template('no_cache.html')
     
